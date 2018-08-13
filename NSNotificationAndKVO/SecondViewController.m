@@ -7,7 +7,6 @@
 //
 
 #import "SecondViewController.h"
-#import "FirstViewController.h"
 
 @interface SecondViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
@@ -18,13 +17,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(getStepper:) name:@"stepperNotification" object:nil];
+    self.countLabel.text = [NSString stringWithFormat:@"%.0f",0.0];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)getStepper:(NSNotification *)notification{
+    if([[notification name] isEqualToString:@"stepperNotification"]){
+        NSDictionary *userInfo = notification.userInfo;
+        UIStepper *stepper = userInfo[@"stepperValue"];
+        self.countLabel.text = [NSString stringWithFormat:@"%.0f",stepper.value];
+    }
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 /*
 #pragma mark - Navigation

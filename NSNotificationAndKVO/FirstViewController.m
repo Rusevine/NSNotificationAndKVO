@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _stepperKey = @{@"stepperValue":[[NSNumber alloc] initWithDouble:self.stepper.value]};
+    _stepperKey = @{@"stepperValue":self.stepper};
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,8 +27,9 @@
 }
 - (IBAction)stepperTapped:(UIStepper *)sender {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSNotification *notification = [[NSNotification alloc] initWithName:@"stepperNotification" object:sender userInfo:self.stepperKey];
+    NSNotification *notification = [[NSNotification alloc] initWithName:@"stepperNotification" object:self userInfo:self.stepperKey];
     [notificationCenter postNotification:notification];
+
 }
 
 /*
