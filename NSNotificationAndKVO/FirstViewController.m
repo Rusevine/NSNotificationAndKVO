@@ -10,6 +10,7 @@
 
 @interface FirstViewController ()
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
+@property (strong, nonatomic) NSDictionary *stepperKey;
 
 @end
 
@@ -17,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _stepperKey = @{@"stepperValue":[[NSNumber alloc] initWithDouble:self.stepper.value]};
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,7 +26,9 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)stepperTapped:(UIStepper *)sender {
-    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotification *notification = [[NSNotification alloc] initWithName:@"stepperNotification" object:sender userInfo:self.stepperKey];
+    [notificationCenter postNotification:notification];
 }
 
 /*
